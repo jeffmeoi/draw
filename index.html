@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="static/css/index.css" />
+  </head>
+  <body>
+    <div class="back">
+      <div class="card text-center layout">
+        <img src="static/image/bridge.gif" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Lucky Star</h5>
+          <p class="card-text">So I'm going to find the lucky star.</p>
+          <button class="btn btn-primary" onclick="search()">Go ahead</button>
+        </div>
+      </div>
+    </div>
+    <div class="card text-center alert">
+        <text id='number'>45</text>
+        <div class="card-body">
+          <h5 class="card-title">Waiting For <span id="seconds">5</span> second(s)</h5>
+          <button class="btn btn-primary" onclick="search()">Done</button>
+        </div>
+      </div>
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js" ></script>
+    <script>
+      getUrlParam = function(name) {
+        var params = decodeURI(window.location.search);
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = params.substr(1).match(reg);
+        if (r!=null) 
+          return unescape(r[2]); 
+        return null;
+      }
+      var num, second;
+      layout = document.getElementsByClassName('layout')[0];
+      alert = document.getElementsByClassName('alert')[0];
+      number = document.getElementById('number');
+      seconds = document.getElementById('seconds');
+      search = function(){
+        num = 0;
+        second = getUrlParam('seconds');
+        if(second == null)
+          second = 3;
+        maxLen = getUrlParam('max')
+        if(maxLen == null)
+          maxLen = 50;
+        if(layout.style.display != 'none'){
+          layout.style.display = 'none';
+          alert.style.display = 'flex';
+          number.innerHTML = num;
+          seconds.innerHTML = second;
+          window.setTimeout(rand, 50);
+          window.setTimeout(timeKeeper, 1000);
+        }else{
+          layout.style.display = 'flex';
+          alert.style.display = 'none';
+        }
+      }
+      rand = function(){
+        num = Math.floor((Math.random()*maxLen)+1);
+        number.innerHTML = num;
+        if(second != 0)
+          setTimeout(rand, 50);
+      }
+      timeKeeper = function(){
+        second--;
+        seconds.innerHTML = second;
+        if(second != 0)
+          setTimeout(timeKeeper, 1000);
+      }
+    </script>
+  </body>
+</html>
